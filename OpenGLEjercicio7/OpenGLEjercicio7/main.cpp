@@ -10,8 +10,8 @@ GLuint vao[numVAOs];
 
 using namespace std;
 
-float inc = 1.0f;
-float tam = 1.0f;
+float x = 0.0f;
+float inc = 0.1f;
 
 string readShaderSource(const char* filePath) {
 	string content;
@@ -119,19 +119,17 @@ void init(GLFWwindow* window) {
 	glBindVertexArray(vao[0]);
 }
 void display(GLFWwindow* window, double currentTime) {
+	glClear(GL_DEPTH_BUFFER_BIT);
+	glClearColor(0.0, 0.0, 0.0, 1.0);
+	glClear(GL_COLOR_BUFFER_BIT);
 	glUseProgram(renderingProgram);
 
-	tam += inc;
-	if (tam > 100.0f ) {
-		inc = -1.0f;
-	}
+	x += inc;
+	if (x > 100.0f) inc = -0.8f;
+	if (x < 0.0f) inc = 0.8f;
+	cout << x << endl;
 
-	if (tam < 2.0f) {
-		inc = 1.0f;
-	}
-	cout << tam << endl;
-
-	glPointSize(tam);
+	glPointSize(x);
 	glDrawArrays(GL_POINTS, 0, 1);
 }
 
